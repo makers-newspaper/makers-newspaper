@@ -3,109 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HJK-INC | Maker's Newspaper</title>
+    <title>HJK-INC | Algorithmic Intelligence Ledger</title>
     <style>
         :root {
-            --bg-primary: #121214;
-            --bg-secondary: #1a1a1e;
-            --accent: #00ff66;
-            --text-main: #eaeaea;
-            --text-muted: #a0a0a5;
-            --border: #2a2a30;
+            --bg-base: #0a0a0c;
+            --bg-surface: #121216;
+            --accent-neon: #00ff66;
+            --text-high: #f5f5f7;
+            --text-low: #8e8e93;
+            --border-glow: #1c1c24;
+            --phi: 1.618;
+            --space-unit: 1rem;
+            --pad-md: calc(var(--space-unit) * var(--phi));
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: var(--bg-primary); color: var(--text-main); padding: 20px; }
-        header { max-width: 1400px; margin: 0 auto 30px auto; border-bottom: 2px solid var(--border); padding-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-        header h1 { font-size: 2rem; letter-spacing: 2px; color: #fff; }
-        header h1 span { color: var(--accent); }
-        .controls { display: flex; gap: 15px; max-width: 1400px; margin: 0 auto 20px auto; }
-        .search-bar { flex: 1; padding: 12px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 1rem; border: 1px solid var(--border); }
-        .filter-btn { padding: 12px 20px; background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-main); border-radius: 6px; cursor: pointer; }
-        .filter-btn.active, .filter-btn:hover { background: var(--accent); color: #000; font-weight: bold; }
-        .news-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 25px; }
-        .card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,255,102,0.1); }
-        .media-container { width: 100%; background: #000; display: flex; justify-content: center; align-items: center; }
-        .media-container img, .media-container video { width: 100%; max-height: 200px; object-fit: cover; }
-        .card-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .badge { display: inline-block; padding: 4px 8px; background: rgba(0,255,102,0.1); color: var(--accent); font-size: 0.75rem; font-weight: bold; border-radius: 4px; margin-bottom: 12px; text-transform: uppercase; }
-        .card h3 { font-size: 1.25rem; margin-bottom: 10px; color: #fff; }
-        .card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 15px; }
-        .timestamp { font-size: 0.8rem; color: var(--text-muted); text-align: right; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--bg-base); color: var(--text-high); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: var(--pad-md); }
+        header { max-width: 1600px; margin: 0 auto calc(var(--pad-md) * 2) auto; border-bottom: 1px solid var(--border-glow); padding-bottom: var(--pad-md); display: flex; justify-content: space-between; align-items: flex-end; }
+        header h1 { font-size: calc(1.5rem * var(--phi)); font-weight: 800; letter-spacing: -1px; text-transform: uppercase; }
+        header h1 span { color: var(--accent-neon); }
+        .analytics-dashboard { max-width: 1600px; margin: 0 auto var(--pad-md) auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; background: var(--bg-surface); padding: 15px; border-radius: 8px; border: 1px solid var(--border-glow); font-family: monospace; font-size: 0.85rem; color: var(--text-low); }
+        .metric span { color: var(--accent-neon); font-weight: bold; }
+        .news-matrix { max-width: 1600px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: calc(var(--space-unit) * var(--phi)); }
+        .card { background: var(--bg-surface); border: 1px solid var(--border-glow); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); position: relative; }
+        .card:hover { transform: translateY(-4px); border-color: var(--accent-neon); box-shadow: 0 12px 30px rgba(0,255,102,0.04); }
+        .card.featured { grid-column: span 2; }
+        .image-viewport { width: 100%; height: 220px; overflow: hidden; background: #000; position: relative; }
+        .image-viewport img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .card:hover .image-viewport img { transform: scale(1.03); }
+        .card-body { padding: var(--pad-md); flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .meta-layer { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+        .tag { font-family: monospace; font-size: 0.75rem; text-transform: uppercase; color: var(--accent-neon); background: rgba(0,255,102,0.07); padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(0,255,102,0.15); }
+        .card h3 { font-size: 1.35rem; font-weight: 600; line-height: 1.3; color: #fff; margin-bottom: 0.75rem; }
+        .card p { color: var(--text-low); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; text-align: justify; }
+        .footer-layer { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-low); font-family: monospace; border-top: 1px solid #1c1c24; padding-top: 12px; }
+        @media (max-width: 900px) { .card.featured { grid-column: span 1; } }
     </style>
 </head>
 <body>
     <header>
-        <h1>HJK-INC // <span>MAKER'S NEWS</span></h1>
-        <div id="live-clock" style="color: var(--accent); font-family: monospace;"></div>
+        <h1>HJK // <span>Ledger Matrix</span></h1>
+        <div id="clock" style="font-family: monospace; color: var(--text-low);">SYSTEM STATE: SYNCED</div>
     </header>
-    <div class="controls">
-        <input type="text" id="search" class="search-bar" placeholder="Search fast intelligence summaries...">
-        <button class="filter-btn active" onclick="filterCategory('all', event)">All</button>
-        <button class="filter-btn" onclick="filterCategory('technology', event)">Tech</button>
-        <button class="filter-btn" onclick="filterCategory('science', event)">Science</button>
-        <button class="filter-btn" onclick="filterCategory('business', event)">Business</button>
+    <div class="analytics-dashboard">
+        <div class="metric">DATA PACKETS: <span id="m-packets">0</span></div>
+        <div class="metric">SYSTEM COHESION: <span id="m-cohesion">100%</span></div>
+        <div class="metric">AVG READING VELOCITY: <span>230 WPM</span></div>
+        <div class="metric">LAST UPDATE FLOW: <span id="m-delta">Just Now</span></div>
     </div>
-    <main class="news-grid" id="news-wrapper"></main>
+    <main class="news-matrix" id="matrix-display"></main>
 
     <script>
-        let newsData = [];
-        setInterval(() => { document.getElementById('live-clock').innerText = new Date().toISOString().replace('T', ' ').substring(0, 19); }, 1000);
+        const WPM_FACTOR = 230; 
+        const DECAY_LAMBDA = 0.05; 
 
-        async function loadNews() {
+        async function initPipelineEngine() {
             try {
                 const response = await fetch('news.json');
                 const data = await response.json();
-                newsData = data.articles || [];
-                renderArticles(newsData);
+                const articles = data.articles || [];
+                
+                document.getElementById('m-packets').innerText = articles.length;
+                if(data.last_updated) {
+                    document.getElementById('m-delta').innerText = new Date(data.last_updated).toLocaleTimeString();
+                }
+
+                const structuredArticles = articles.map(art => {
+                    const wordCount = (art.summary || "").split(/\s+/).length + (art.headline || "").split(/\s+/).length;
+                    const readingTime = Math.ceil(wordCount / WPM_FACTOR);
+                    const postTime = new Date(art.timestamp || new Date());
+                    const hoursElapsed = Math.max(0.1, (new Date() - postTime) / (1000 * 60 * 60));
+                    const score = (1.2 * Math.log(wordCount || 1)) + (10 * Math.exp(-DECAY_LAMBDA * hoursElapsed));
+                    return { ...art, readingTime, score };
+                });
+
+                structuredArticles.sort((a, b) => b.score - a.score);
+                renderMatrix(structuredArticles);
             } catch (err) {
-                document.getElementById('news-wrapper').innerHTML = `<p style="color:red; grid-column: 1/-1; text-align:center;">Failed to sync with news.json metadata repository.</p>`;
+                document.getElementById('matrix-display').innerHTML = `<p style="color:red; grid-column: 1/-1;">Parsing Exception: Execution Failure updating Data Matrices.</p>`;
+                document.getElementById('m-cohesion').innerText = "0% [CRITICAL]";
             }
         }
 
-        function renderArticles(articles) {
-            const wrapper = document.getElementById('news-wrapper');
-            if(articles.length === 0) {
-                wrapper.innerHTML = '<p style="grid-column: 1/-1; text-align:center;">No news items compiled yet.</p>';
-                return;
-            }
-            wrapper.innerHTML = articles.map(art => {
-                let mediaHtml = '';
-                if (art.video_url) {
-                    mediaHtml = `<div class="media-container"><video src="${art.video_url}" controls muted></video></div>`;
-                } else if (art.image_url) {
-                    mediaHtml = `<div class="media-container"><img src="${art.image_url}" alt="News Image"></div>`;
-                }
+        function renderMatrix(items) {
+            const display = document.getElementById('matrix-display');
+            display.innerHTML = items.map((item, idx) => {
+                const featureClass = (idx === 0 || (idx < 3 && item.score > 8)) ? 'featured' : '';
+                const visualMedia = item.image_url ? `<div class="image-viewport"><img src="${item.image_url}" alt="Asset Space"></div>` : '';
+                
                 return `
-                    <article class="card">
-                        ${mediaHtml}
-                        <div class="card-content">
+                    <div class="card ${featureClass}">
+                        ${visualMedia}
+                        <div class="card-body">
                             <div>
-                                <span class="badge">${art.category}</span>
-                                <h3>${art.headline}</h3>
-                                <p>${art.summary}</p>
+                                <div class="meta-layer">
+                                    <span class="tag">${item.category}</span>
+                                    <span style="font-family:monospace; font-size:0.75rem; color:var(--text-low)">P-Score: ${item.score.toFixed(2)}</span>
+                                </div>
+                                <h3>${item.headline}</h3>
+                                <p>${item.summary}</p>
                             </div>
-                            <div class="timestamp">${art.timestamp || 'Realtime'}</div>
+                            <div class="footer-layer">
+                                <div>METRIC: ${item.readingTime} MIN READ</div>
+                                <div>${item.timestamp ? item.timestamp.substring(11, 16) : 'LIVE'}</div>
+                            </div>
                         </div>
-                    </article>
+                    </div>
                 `;
             }).join('');
         }
-
-        document.getElementById('search').addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
-            const filtered = newsData.filter(a => a.headline.toLowerCase().includes(query) || a.summary.toLowerCase().includes(query));
-            renderArticles(filtered);
-        });
-
-        function filterCategory(cat, event) {
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            if(cat === 'all') { renderArticles(newsData); } 
-            else { renderArticles(newsData.filter(a => a.category.toLowerCase() === cat)); }
-        }
-
-        window.onload = loadNews;
+        window.onload = initPipelineEngine;
     </script>
 </body>
 </html>
