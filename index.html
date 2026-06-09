@@ -1,1 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HJK-INC | Maker's Newspaper</title>
+    <style>
+        :root {
+            --bg-primary: #121214;
+            --bg-secondary: #1a1a1e;
+            --accent: #00ff66;
+            --text-main: #eaeaea;
+            --text-muted: #a0a0a5;
+            --border: #2a2a30;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-primary); color: var(--text-main); padding: 20px; }
+        header { max-width: 1400px; margin: 0 auto 30px auto; border-bottom: 2px solid var(--border); padding-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        header h1 { font-size: 2rem; letter-spacing: 2px; color: #fff; }
+        header h1 span { color: var(--accent); }
+        .controls { display: flex; gap: 15px; max-width: 1400px; margin: 0 auto 20px auto; }
+        .search-bar { flex: 1; padding: 12px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 1rem; border: 1px solid var(--border); }
+        .filter-btn { padding: 12px 20px; background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-main); border-radius: 6px; cursor: pointer; }
+        .filter-btn.active, .filter-btn:hover { background: var(--accent); color: #000; font-weight: bold; }
+        .news-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 25px; }
+        .card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,255,102,0.1); }
+        .media-container { width: 100%; background: #000; display: flex; justify-content: center; align-items: center; }
+        .media-container img, .media-container video { width: 100%; max-height: 200px; object-fit: cover; }
+        .card-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .badge { display: inline-block; padding: 4px 8px; background: rgba(0,255,102,0.1); color: var(--accent); font-size: 0.75rem; font-weight: bold; border-radius: 4px; margin-bottom: 12px; text-transform: uppercase; }
+        .card h3 { font-size: 1.25rem; margin-bottom: 10px; color: #fff; }
+        .card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 15px; }
+        .timestamp { font-size: 0.8rem; color: var(--text-muted); text-align: right; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>HJK-INC // <span>MAKER'S NEWS</span></h1>
+        <div id="live-clock" style="color: var(--accent); font-family: monospace;"></div>
+    </header>
+    <div class="controls">
+        <input type="text" id="search" class="search-bar" placeholder="Search fast intelligence summaries...">
+        <button class="filter-btn active" onclick="filterCategory('all', event)">All</button>
+        <button class="filter-btn" onclick="filterCategory('technology', event)">Tech</button>
+        <button class="filter-btn" onclick="filterCategory('science', event)">Science</button>
+        <button class="filter-btn" onclick="filterCategory('business', event)">Business</button>
+    </div>
+    <main class="news-grid" id="news-wrapper"></main>
 
+    <script>
+        let newsData = [];
+        setInterval(() => { document.getElementById('live-clock').innerText = new Date().toISOString().replace('T', ' ').substring(0, 19); }, 1000);
+
+        async function loadNews() {
+            try {
+                const response = await fetch('news.json');
+                const data = await response.json();
+                newsData = data.articles || [];
+                renderArticles(newsData);
+            } catch (err) {
+                document.getElementById('news-wrapper').innerHTML = `<p style="color:red; grid-column: 1/-1; text-align:center;">Failed to sync with news.json metadata repository.</p>`;
+            }
+        }
+
+        function renderArticles(articles) {
+            const wrapper = document.getElementById('news-wrapper');
+            if(articles.length === 0) {
+                wrapper.innerHTML = '<p style="grid-column: 1/-1; text-align:center;">No news items compiled yet.</p>';
+                return;
+            }
+            wrapper.innerHTML = articles.map(art => {
+                let mediaHtml = '';
+                if (art.video_url) {
+                    mediaHtml = `<div class="media-container"><video src="${art.video_url}" controls muted></video></div>`;
+                } else if (art.image_url) {
+                    mediaHtml = `<div class="media-container"><img src="${art.image_url}" alt="News Image"></div>`;
+                }
+                return `
+                    <article class="card">
+                        ${mediaHtml}
+                        <div class="card-content">
+                            <div>
+                                <span class="badge">${art.category}</span>
+                                <h3>${art.headline}</h3>
+                                <p>${art.summary}</p>
+                            </div>
+                            <div class="timestamp">${art.timestamp || 'Realtime'}</div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        document.getElementById('search').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = newsData.filter(a => a.headline.toLowerCase().includes(query) || a.summary.toLowerCase().includes(query));
+            renderArticles(filtered);
+        });
+
+        function filterCategory(cat, event) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            if(cat === 'all') { renderArticles(newsData); } 
+            else { renderArticles(newsData.filter(a => a.category.toLowerCase() === cat)); }
+        }
+
+        window.onload = loadNews;
+    </script>
+</body>
+</html>
