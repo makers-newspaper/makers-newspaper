@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-06-09T14:02:16.953255+00:00",
+  "last_updated": "2026-06-12T06:33:45.439987+00:00",
   "articles": [
     {
       "headline": "AI Revolution Looms Large with AGI Arrival Predicted by 2030",
@@ -7,6 +7,34 @@
       "category": "Technology",
       "image_url": "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA25i6C1.img?w=1012&h=569&m=6&x=354&y=112&s=233&d=233",
       "timestamp": "2026-06-09 14:02:16 UTC"
+    },
+    {
+      "headline": "AI Dominates News Coverage with Innovations, Ethical Debats and Investment Highlights",
+      "summary": "\"Cheaper,' faster', culturally aware\" Avataar’s video AI is built for India; Theker raises $85M to build a versatile factory robot. Jeff Bezos' Prometheus builds an \"artificial general engineer\", SpaceX IPO sets new records, and more in tech advancements.\nAI ethics are also at the forefront with concerns about memory tools affecting models' performance or misuse of AI technology by companies like Google firing engineers for raising safety issues.",
+      "category": "Technology",
+      "image_url": "https://techcrunch.com/wp-content/uploads/2026/06/Screenshot-2026-06-11-at-3.39.00-PM.jpg?w=657",
+      "timestamp": "2026-06-12 06:31:14 UTC"
+    },
+    {
+      "headline": "'Wild Weather, Green Tech Battles & SpaceX Troubles Dominate WIRED Science'",
+      "summary": "This week’s roundup of science news covers a wide range from environmental concerns to technological advancements. In 'WILD WEATHER', El Niño's impact on global weather patterns is discussed with examples like wet Southwest winters and fewer Atlantic hurricanes, highlighting the potential effects as super climate events continue shaping our world.",
+      "category": "Science",
+      "image_url": "https://media.wired.com/photos/69eba788c53bb7315821630f/original/pass/WIR_Cutout_2b_Rollover_600x400_02b.gif?format=original",
+      "timestamp": "2026-06-12 06:32:06 UTC"
+    },
+    {
+      "headline": "NASA Plans Lunar Base, New Tech Developments in Space and Beyond",
+      "summary": "\"MARTA MUSSO\" reports NASA's ambitious plan for lunar base construction with potential launch this year. \"JORGE GARAY\", meanwhile discusses a Psyche probe capturing stunning Mars images en route to an asteroid; challenging traditional physics principles on aerodynamics, while RITSUKO KAWAI explores how modern scientific tools are fundamentally based in ancient techniques of counting and comparing data.\n\nFernanda Gonzalez delves into the discovery that venom from scorpions combined with hot peppers could lead antibiotics against resistant bacteria. Isabella Ward covers a new hantavirus vaccine by Moderna, highlighting its potential for various age-related diseases beyond vision loss.",
+      "category": "<Technology|Science>",
+      "image_url": "https://media.wired.com/photos/69eba788c53bb7315821630f/original/pass/WIR_Cutout_2b_Rollover_600x400_02b.gif?format=original",
+      "timestamp": "2026-06-12 06:32:56 UTC"
+    },
+    {
+      "headline": "Exploring Innovations in Public Health and Technology",
+      "summary": "\"Fair Access to Public Lands\" sparked a discussion on land management policies, while \"Chickenpox Parties' Backward Logic explored social dynamics. Supercharging Immune Cells for HIV control demonstrated advancements under public health initiatives by Emily Mullin; Danish couple’s research gained momentum in vaccine policy discussions with RFK Jr., highlighting global efforts against diseases like chicken pox and AIDS.\n\nMarta Musso delved into the first atomic bomb test, shedding light on scientific milestones. WIRED continues to lead future-oriented stories through investigative reporting that shapes public understanding of technology's role today.",
+      "category": "<general|Science>",
+      "image_url": "https://media.wired.com/photos/69eba788c53bb7315821630f/original/pass/WIR_Cutout_2b_Rollover_600x400_02b.gif?format=original",
+      "timestamp": "2026-06-12 06:33:45 UTC"
     }
   ]
 }
