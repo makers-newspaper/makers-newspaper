@@ -3,13 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="google-site-verification" content="rrxHrk0vRqMoWXWt7JmF5VqC3i5Q9XdxJRypKETbLh0" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+     <link rel="icon" type="image/x-icon" href="Screenshot 2026-06-12 103639.png">
     <title>HJK-INC | Algorithmic Intelligence Ledger</title>
+    
+    <script id="dynamic-schema" type="application/ld+json"></script>
+
     <style>
+        /* === CSS VARIABLES & THEME === */
         :root {
-            --bg-base: #0a0a0c;
-            --bg-surface: #121216;
+            --bg-base: #050507;
+            --bg-surface: #101014;
+            --bg-elevated: #1a1a24;
             --accent-neon: #00ff66;
+            --accent-danger: #ff3366;
             --text-high: #f5f5f7;
             --text-low: #8e8e93;
             --border-glow: #1c1c24;
@@ -17,101 +24,356 @@
             --space-unit: 1rem;
             --pad-md: calc(var(--space-unit) * var(--phi));
         }
+
+        /* === RESET & TYPOGRAPHY === */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: var(--bg-base); color: var(--text-high); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: var(--pad-md); }
-        header { max-width: 1600px; margin: 0 auto calc(var(--pad-md) * 2) auto; border-bottom: 1px solid var(--border-glow); padding-bottom: var(--pad-md); display: flex; justify-content: space-between; align-items: flex-end; }
-        header h1 { font-size: calc(1.5rem * var(--phi)); font-weight: 800; letter-spacing: -1px; text-transform: uppercase; }
-        header h1 span { color: var(--accent-neon); }
-        .analytics-dashboard { max-width: 1600px; margin: 0 auto var(--pad-md) auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; background: var(--bg-surface); padding: 15px; border-radius: 8px; border: 1px solid var(--border-glow); font-family: monospace; font-size: 0.85rem; color: var(--text-low); }
-        .metric span { color: var(--accent-neon); font-weight: bold; }
-        .news-matrix { max-width: 1600px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: calc(var(--space-unit) * var(--phi)); }
-        .card { background: var(--bg-surface); border: 1px solid var(--border-glow); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); position: relative; }
-        .card:hover { transform: translateY(-4px); border-color: var(--accent-neon); box-shadow: 0 12px 30px rgba(0,255,102,0.04); }
-        .card.featured { grid-column: span 2; }
-        .image-viewport { width: 100%; height: 220px; overflow: hidden; background: #000; position: relative; }
-        .image-viewport img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
-        .card:hover .image-viewport img { transform: scale(1.03); }
-        .card-body { padding: var(--pad-md); flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .meta-layer { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
-        .tag { font-family: monospace; font-size: 0.75rem; text-transform: uppercase; color: var(--accent-neon); background: rgba(0,255,102,0.07); padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(0,255,102,0.15); }
-        .card h3 { font-size: 1.35rem; font-weight: 600; line-height: 1.3; color: #fff; margin-bottom: 0.75rem; }
-        .card p { color: var(--text-low); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; text-align: justify; }
-        .footer-layer { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-low); font-family: monospace; border-top: 1px solid #1c1c24; padding-top: 12px; }
-        @media (max-width: 900px) { .card.featured { grid-column: span 1; } }
+        body { 
+            background-color: var(--bg-base); 
+            color: var(--text-high); 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            padding: var(--pad-md); 
+            overflow-x: hidden;
+        }
+
+        /* === HEADER === */
+        header { 
+            max-width: 1600px; 
+            margin: 0 auto calc(var(--pad-md) * 2) auto; 
+            border-bottom: 1px solid var(--border-glow); 
+            padding-bottom: var(--pad-md); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: flex-end; 
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        header h1 { font-size: clamp(1.5rem, 4vw, calc(1.5rem * var(--phi))); font-weight: 800; letter-spacing: -1px; text-transform: uppercase; }
+        header h1 span { color: var(--accent-neon); text-shadow: 0 0 10px rgba(0,255,102,0.3); }
+
+        /* === DASHBOARD === */
+        .analytics-dashboard { 
+            max-width: 1600px; 
+            margin: 0 auto var(--pad-md) auto; 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 1rem; 
+            background: var(--bg-surface); 
+            padding: 20px; 
+            border-radius: 12px; 
+            border: 1px solid var(--border-glow); 
+            font-family: monospace; 
+            font-size: 0.9rem; 
+            color: var(--text-low); 
+        }
+        .metric { display: flex; flex-direction: column; gap: 4px; }
+        .metric span { color: var(--accent-neon); font-weight: bold; font-size: 1.2rem; }
+        
+        button.action-btn {
+            background: rgba(0,255,102,0.1);
+            color: var(--accent-neon);
+            border: 1px solid var(--accent-neon);
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: monospace;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+        button.action-btn:hover { background: var(--accent-neon); color: #000; box-shadow: 0 0 15px rgba(0,255,102,0.4); }
+
+        /* === MATRIX GRID (RESPONSIVE) === */
+        .news-matrix { 
+            max-width: 1600px; 
+            margin: 0 auto; 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); 
+            gap: calc(var(--space-unit) * var(--phi)); 
+        }
+
+        /* === CARDS & ANIMATIONS === */
+        .card { 
+            background: var(--bg-surface); 
+            border: 1px solid var(--border-glow); 
+            border-radius: 12px; 
+            overflow: hidden; 
+            display: flex; 
+            flex-direction: column; 
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s, box-shadow 0.4s; 
+            opacity: 0; 
+            transform: translateY(30px);
+        }
+        .card.visible { opacity: 1; transform: translateY(0); } /* Triggered by JS Observer */
+        .card:hover { transform: translateY(-6px); border-color: var(--accent-neon); box-shadow: 0 12px 30px rgba(0,255,102,0.08); }
+        
+        /* Spanning logic for larger screens */
+        @media (min-width: 900px) { .card.featured { grid-column: span 2; } }
+
+        .image-viewport { width: 100%; height: 240px; overflow: hidden; background: #000; position: relative; border-bottom: 1px solid var(--border-glow); }
+        .image-viewport img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; }
+        .card:hover .image-viewport img { transform: scale(1.05); }
+        
+        .card-body { padding: var(--pad-md); flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 1.5rem; }
+        .meta-layer { display: flex; justify-content: space-between; align-items: center; }
+        .tag { font-family: monospace; font-size: 0.75rem; text-transform: uppercase; color: var(--accent-neon); background: rgba(0,255,102,0.07); padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(0,255,102,0.15); }
+        
+        .card h3 { font-size: clamp(1.2rem, 2vw, 1.4rem); font-weight: 700; line-height: 1.35; color: #fff; margin-bottom: 0.5rem; }
+        .card p { color: var(--text-low); font-size: 0.95rem; line-height: 1.6; text-align: left; }
+        
+        .footer-layer { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-low); font-family: monospace; border-top: 1px solid var(--border-glow); padding-top: 12px; }
+
+        /* === QUIZ MODAL === */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        
+        .quiz-box {
+            background: var(--bg-elevated); border: 1px solid var(--accent-neon);
+            padding: 2rem; border-radius: 12px; max-width: 600px; width: 90%;
+            box-shadow: 0 20px 50px rgba(0,255,102,0.1);
+            transform: translateY(20px); transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .quiz-box { transform: translateY(0); }
+        
+        .quiz-box h2 { margin-bottom: 1rem; color: #fff; display: flex; justify-content: space-between;}
+        .quiz-box p.question { font-size: 1.1rem; line-height: 1.5; color: var(--text-low); margin-bottom: 1.5rem; font-style: italic; border-left: 3px solid var(--accent-neon); padding-left: 1rem;}
+        
+        .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+        .quiz-opt-btn {
+            background: var(--bg-surface); border: 1px solid var(--border-glow);
+            color: var(--text-high); padding: 12px; border-radius: 8px; cursor: pointer;
+            text-align: left; font-size: 1rem; transition: all 0.2s;
+        }
+        .quiz-opt-btn:hover { border-color: var(--accent-neon); background: rgba(0,255,102,0.05); }
+        .quiz-opt-btn.correct { background: rgba(0,255,102,0.2); border-color: var(--accent-neon); }
+        .quiz-opt-btn.wrong { background: rgba(255,51,102,0.2); border-color: var(--accent-danger); }
+        
+        .close-modal { background: none; border: none; color: var(--text-low); font-size: 1.5rem; cursor: pointer; }
+        .close-modal:hover { color: #fff; }
+
+        /* Loading State */
+        .loader { grid-column: 1/-1; text-align: center; color: var(--accent-neon); font-family: monospace; padding: 50px; font-size: 1.2rem; }
     </style>
 </head>
 <body>
     <header>
         <h1>HJK // <span>Ledger Matrix</span></h1>
-        <div id="clock" style="font-family: monospace; color: var(--text-low);">SYSTEM STATE: SYNCED</div>
+        <div id="clock" style="font-family: monospace; color: var(--text-low);">SYSTEM STATE: INITIALIZING...</div>
     </header>
+
     <div class="analytics-dashboard">
         <div class="metric">DATA PACKETS: <span id="m-packets">0</span></div>
         <div class="metric">SYSTEM COHESION: <span id="m-cohesion">100%</span></div>
-        <div class="metric">AVG READING VELOCITY: <span>230 WPM</span></div>
-        <div class="metric">LAST UPDATE FLOW: <span id="m-delta">Just Now</span></div>
+        <div class="metric">LAST UPDATE FLOW: <span id="m-delta">Loading...</span></div>
+        <button class="action-btn" onclick="generateQuiz()">Run Terminal Quiz</button>
     </div>
-    <main class="news-matrix" id="matrix-display"></main>
+
+    <main class="news-matrix" id="matrix-display">
+        <div class="loader">DECRYPTING DATA STREAMS...</div>
+    </main>
+
+    <div class="modal-overlay" id="quiz-modal">
+        <div class="quiz-box">
+            <h2>Knowledge Check <button class="close-modal" onclick="closeQuiz()">×</button></h2>
+            <div id="quiz-content"></div>
+        </div>
+    </div>
 
     <script>
         const WPM_FACTOR = 230; 
         const DECAY_LAMBDA = 0.05; 
+        let globalArticles = []; // Store globally for the quiz gen
 
+        // ==========================================
+        // 1. CORE PIPELINE & RENDER
+        // ==========================================
         async function initPipelineEngine() {
+            updateClock();
+            setInterval(updateClock, 1000);
+
             try {
+                // Fetch dynamic backend data
                 const response = await fetch('news.json');
                 const data = await response.json();
-                const articles = data.articles || [];
+                globalArticles = data.articles || [];
                 
-                document.getElementById('m-packets').innerText = articles.length;
+                // Update Dashboard
+                document.getElementById('m-packets').innerText = globalArticles.length;
                 if(data.last_updated) {
-                    document.getElementById('m-delta').innerText = new Date(data.last_updated).toLocaleTimeString();
+                    document.getElementById('m-delta').innerText = new Date(data.last_updated).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                 }
 
-                const structuredArticles = articles.map(art => {
+                // Process algorithmic scoring
+                const structuredArticles = globalArticles.map(art => {
                     const wordCount = (art.summary || "").split(/\s+/).length + (art.headline || "").split(/\s+/).length;
-                    const readingTime = Math.ceil(wordCount / WPM_FACTOR);
+                    const readingTime = Math.max(1, Math.ceil(wordCount / WPM_FACTOR));
                     const postTime = new Date(art.timestamp || new Date());
                     const hoursElapsed = Math.max(0.1, (new Date() - postTime) / (1000 * 60 * 60));
                     const score = (1.2 * Math.log(wordCount || 1)) + (10 * Math.exp(-DECAY_LAMBDA * hoursElapsed));
                     return { ...art, readingTime, score };
                 });
 
+                // Sort by priority score
                 structuredArticles.sort((a, b) => b.score - a.score);
+                
+                // Execute rendering & SEO
                 renderMatrix(structuredArticles);
+                injectSchemaOrg(structuredArticles);
+                setupScrollAnimations();
+
             } catch (err) {
-                document.getElementById('matrix-display').innerHTML = `<p style="color:red; grid-column: 1/-1;">Parsing Exception: Execution Failure updating Data Matrices.</p>`;
-                document.getElementById('m-cohesion').innerText = "0% [CRITICAL]";
+                console.error("Data fault:", err);
+                document.getElementById('matrix-display').innerHTML = `<div class="loader" style="color:var(--accent-danger);">[CRITICAL FAULT] Unable to establish connection to data matrix.</div>`;
+                document.getElementById('m-cohesion').innerText = "0% [FAILED]";
             }
         }
 
         function renderMatrix(items) {
             const display = document.getElementById('matrix-display');
+            if (items.length === 0) {
+                display.innerHTML = `<div class="loader">Matrix is empty. Waiting for syndication...</div>`;
+                return;
+            }
+
             display.innerHTML = items.map((item, idx) => {
+                // Feature the top stories on larger screens
                 const featureClass = (idx === 0 || (idx < 3 && item.score > 8)) ? 'featured' : '';
-                const visualMedia = item.image_url ? `<div class="image-viewport"><img src="${item.image_url}" alt="Asset Space"></div>` : '';
+                const visualMedia = item.image_url ? `<div class="image-viewport"><img src="${item.image_url}" alt="Article reference image" loading="lazy"></div>` : '';
                 
                 return `
-                    <div class="card ${featureClass}">
+                    <article class="card ${featureClass} scroll-anim">
                         ${visualMedia}
                         <div class="card-body">
                             <div>
                                 <div class="meta-layer">
-                                    <span class="tag">${item.category}</span>
+                                    <span class="tag">${item.category || 'DATA'}</span>
                                     <span style="font-family:monospace; font-size:0.75rem; color:var(--text-low)">P-Score: ${item.score.toFixed(2)}</span>
                                 </div>
                                 <h3>${item.headline}</h3>
                                 <p>${item.summary}</p>
                             </div>
                             <div class="footer-layer">
-                                <div>METRIC: ${item.readingTime} MIN READ</div>
-                                <div>${item.timestamp ? item.timestamp.substring(11, 16) : 'LIVE'}</div>
+                                <div>${item.readingTime} MIN READ</div>
+                                <div>${item.timestamp ? item.timestamp.substring(11, 16) + ' UTC' : 'LIVE'}</div>
                             </div>
                         </div>
-                    </div>
+                    </article>
                 `;
             }).join('');
         }
+
+        // ==========================================
+        // 2. SCHEMA.ORG INJECTION (SEO)
+        // ==========================================
+        function injectSchemaOrg(articles) {
+            // Take top 10 articles to build an ItemList for Google
+            const schemaData = {
+                "@context": "https://schema.org",
+                "@type": "ItemList",
+                "itemListElement": articles.slice(0, 10).map((art, index) => ({
+                    "@type": "ListItem",
+                    "position": index + 1,
+                    "item": {
+                        "@type": "NewsArticle",
+                        "headline": art.headline,
+                        "abstract": art.summary,
+                        "image": art.image_url || "",
+                        "datePublished": art.timestamp || new Date().toISOString(),
+                        "articleSection": art.category
+                    }
+                }))
+            };
+            document.getElementById('dynamic-schema').textContent = JSON.stringify(schemaData);
+        }
+
+        // ==========================================
+        // 3. SCROLL ANIMATION OBSERVER
+        // ==========================================
+        function setupScrollAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // Only animate once
+                    }
+                });
+            }, { threshold: 0.1 }); // Trigger when 10% visible
+
+            document.querySelectorAll('.scroll-anim').forEach(card => {
+                observer.observe(card);
+            });
+        }
+
+        // ==========================================
+        // 4. DYNAMIC QUIZ GENERATOR
+        // ==========================================
+        function generateQuiz() {
+            if(globalArticles.length < 3) {
+                alert("Not enough data packets to generate a secure quiz. Wait for more intel.");
+                return;
+            }
+
+            // Shuffle array and pick 3 random articles
+            const shuffled = [...globalArticles].sort(() => 0.5 - Math.random());
+            const correctArticle = shuffled[0];
+            const options = [shuffled[0], shuffled[1], shuffled[2]].sort(() => 0.5 - Math.random());
+
+            const contentDiv = document.getElementById('quiz-content');
+            
+            // Build the UI
+            let html = `
+                <p style="color:var(--text-low); font-size:0.85rem; text-transform:uppercase; margin-bottom:5px;">Identify the matching headline for this data snippet:</p>
+                <p class="question">"...${correctArticle.summary.substring(0, 120)}..."</p>
+                <div class="quiz-options">
+            `;
+            
+            options.forEach((opt, idx) => {
+                // Encode the string to avoid breaking HTML quotes
+                const isCorrect = opt.headline === correctArticle.headline;
+                html += `<button class="quiz-opt-btn" onclick="checkAnswer(this, ${isCorrect})">${opt.headline}</button>`;
+            });
+            html += `</div>`;
+            
+            contentDiv.innerHTML = html;
+            document.getElementById('quiz-modal').classList.add('active');
+        }
+
+        function checkAnswer(btnElement, isCorrect) {
+            // Disable all buttons
+            const allBtns = document.querySelectorAll('.quiz-opt-btn');
+            allBtns.forEach(b => {
+                b.style.pointerEvents = 'none';
+                if(b.innerText === btnElement.innerText && !isCorrect) {
+                    b.classList.add('wrong');
+                }
+            });
+
+            if(isCorrect) {
+                btnElement.classList.add('correct');
+                btnElement.innerHTML += ' <span style="float:right;">✓ ACCESS GRANTED</span>';
+                setTimeout(() => { closeQuiz(); }, 2000);
+            } else {
+                btnElement.innerHTML += ' <span style="float:right;">✗ OVERRIDE DENIED</span>';
+            }
+        }
+
+        function closeQuiz() {
+            document.getElementById('quiz-modal').classList.remove('active');
+        }
+
+        // ==========================================
+        // 5. UTILITIES
+        // ==========================================
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').innerText = `SYS_TIME: ${now.toISOString().substring(11, 19)} UTC`;
+        }
+
+        // Boot system on load
         window.onload = initPipelineEngine;
     </script>
 </body>
